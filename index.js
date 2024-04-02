@@ -102,7 +102,7 @@ function queued() {
 
     fn.queue.shift();
     if (fn.queue.length > 0) {
-      setImmediate(invoke);
+      setTimeout(invoke, 0);
     }
   };
 
