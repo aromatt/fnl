@@ -1,6 +1,6 @@
 let DEFAULT_TIMEOUT = 60 * 1000;
 
-function passThrough() {
+export function passThrough() {
   let lock = null;
   let timeout = DEFAULT_TIMEOUT;
   let fn;
@@ -53,7 +53,7 @@ function passThrough() {
   };
 }
 
-function queued() {
+export function queued() {
   let timeout = DEFAULT_TIMEOUT;
   let timer;
   let fn;
@@ -116,5 +116,3 @@ function queued() {
   };
 }
 
-module.exports.passThrough = passThrough;
-module.exports.queued = queued;
