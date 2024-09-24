@@ -1,13 +1,12 @@
-# fnl
-Funnel a function's invocations into a queue or guard them with a nonblocking
-mutex.
+# lockwrap
+Funnel a function's invocations into a queue or guard them with a nonblocking mutex.
 
 ## queued
 Forces a function's calls into a queue, causing them to execute sequentially.
 
 Example:
 
-    var queuedFn = fnl.queued(function(release, a, doRelease) {
+    var queuedFn = queued(function(release, a, doRelease) {
       console.log("value:", a);
       if (doRelease) {
         console.log("I will release.");
@@ -42,7 +41,7 @@ reentry into the function until the provided `release` callback is called.
 
 Example:
 
-    var noReentry = fnl.locked(function(release, a, b, c) {
+    var noReentry = locked(function(release, a, b, c) {
 
       db.find('foo', function(result) {
 

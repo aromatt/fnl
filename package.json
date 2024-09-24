@@ -1,5 +1,5 @@
 {
-  "name": "fnl",
+  "name": "lockwrap",
   "version": "0.1.0",
   "description": "Add concurrency control in a pinch using transparent wrappers.",
   "main": "index.js",
@@ -8,18 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aromatt/fnl.git"
+    "url": "git+https://github.com/aromatt/lockwrap.git"
   },
   "keywords": [
     "concurrency",
     "lock",
     "mutex",
-    "queue"
+    "queue",
+    "async"
   ],
   "author": "Andrew Matteson",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/aromatt/fnl/issues"
+    "url": "https://github.com/aromatt/lockwrap/issues"
   },
-  "homepage": "https://github.com/aromatt/fnl#readme"
+  "homepage": "https://github.com/aromatt/lockwrap#readme"
 }
