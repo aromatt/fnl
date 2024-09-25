@@ -6,17 +6,19 @@ Forces a function's calls into a queue, causing them to execute sequentially.
 
 Example:
 
-    let serialFetch = queued(function(release, a) {
+```javascript
+let serialFetch = queued(function(release, a) {
 
-      api.fetch(a, function(result) {
+  api.fetch(a, function(result) {
 
-        process(result);  // Do something with result
-        release();        // Release exclusive lock
+    process(result);  // Do something with result
+    release();        // Release exclusive lock
 
-      }, release);        // We provide `release` as an error callback to `api.fetch`
-                          // so that the lock will be released even if the find
-                          // fails
-    });
+  }, release);        // We provide `release` as an error callback to `api.fetch`
+                      // so that the lock will be released even if the find
+                      // fails
+});
+```
 
 ### Adding a timeout
 You can enforce a timeout on exclusivity by adding `{ timeout: <milliseconds> }`
@@ -24,10 +26,12 @@ as an argument to `queued()`.
 
 Example:
 
-    let serialFn = queued(function(release) {
-      doLengthyWork();
-      release();
-    }, { timeout: 100 });
+```javascript
+let serialFn = queued(function(release) {
+  doLengthyWork();
+  release();
+}, { timeout: 100 });
+```
 
 Here, the `release` callback will be automatically called after 100 milliseconds,
 allowing the next call to be executed even if the current one is still in progress.
