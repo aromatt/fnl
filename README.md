@@ -21,7 +21,7 @@ let serialFetch = queued(function(release, a) {
 ```
 
 ### Adding a timeout
-You can enforce a timeout on exclusivity by adding `{ timeout: <milliseconds> }`
+You can impose a timeout on exclusivity by adding `{ timeout: <milliseconds> }`
 as an argument to `queued()`.
 
 Example:
@@ -37,7 +37,7 @@ Here, the `release` callback will be automatically called after 100 milliseconds
 allowing the next call to be executed even if the current one is still in progress.
 
 ## passThrough
-Wraps the provided function in a limited-lifespan, nonblocking mutex, preventing
+Wraps the provided function in a nonblocking mutex, preventing
 reentry into the function until the provided `release` callback is called.
 
 While an execution of the function is in progress, all would-be concurrent calls
