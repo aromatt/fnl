@@ -6,59 +6,42 @@ Forces a function's calls into a queue, causing them to execute sequentially.
 
 Example:
 
-    var queuedFn = queued(function(release, a, doRelease) {
-      console.log("value:", a);
-      if (doRelease) {
-        console.log("I will release.");
-        setTimeout(release, 100);
-      } else {
-        console.log("I will not release; I will time out");
-      }
-    }, { timeout: 100 });
+    let serialFetch = queued(function(release, a) {
 
-    queuedFn(1, true);
-    queuedFn(2, true);
-    queuedFn(3, true);
-    queuedFn(4, false);
-    console.log("Done queueing calls");
+      api.fetch(a, function(result) {
 
-Sample output:
+        process(result);  // Do something with result
+        release();        // Release exclusive lock
 
-    value: 1
-    I will release.
-    Done queueing calls
-    value: 2
-    I will release.
-    value: 3
-    I will release.
-    value: 4
-    I will not release; I will time out
+      }, release);        // We provide `release` as an error callback to `api.fetch`
+                          // so that the lock will be released even if the find
+                          // fails
+    });
 
-
-## locked
-Wraps the provided function in a limited-lifespan, nonblocking mutex, preventing
-reentry into the function until the provided `release` callback is called.
+### Adding a timeout
+You can enforce a timeout on exclusivity by adding `{ timeout: <milliseconds> }`
+as an argument to `queued()`.
 
 Example:
 
-    var noReentry = locked(function(release, a, b, c) {
+    let serialFn = queued(function(release) {
+      doLengthyWork();
+      release();
+    }, { timeout: 100 });
 
-      db.find('foo', function(result) {
+Here, the `release` callback will be automatically called after 100 milliseconds,
+allowing the next call to be executed even if the current one is still in progress.
 
-        process(result);  // Assume this call is synchronous
+## passThrough
+Wraps the provided function in a limited-lifespan, nonblocking mutex, preventing
+reentry into the function until the provided `release` callback is called.
 
-        release();        // Release the mutex here
+While an execution of the function is in progress, all would-be concurrent calls
+are thrown out.
 
-      }, release);        // We provide `release` as an error callback to `find`,
-                          // so that the lock will be released even if the find
-                          // fails
-
-    }, 5000);             // Finally, if all else fails, the lock will be
-                          // released in 5 seconds no matter what.
-
+`passThrough` accepts a timeout as well via `{ timeout: <milliseconds> }`.
 
 # TODO
+* switch to Promises and return function's results / error
 * support custom release/timeout functions
 * optionally raise an exception when lock cannot be obtained
-
-
