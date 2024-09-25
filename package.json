@@ -1,6 +1,6 @@
 {
   "name": "lockwrap",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Add concurrency control in a pinch using transparent wrappers.",
   "main": "index.js",
   "scripts": {
